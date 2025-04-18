@@ -51,6 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
                  galleryItemsContainer.innerHTML = '<p>이 갤러리에는 아직 콘텐츠가 없습니다.</p>';
                  return;
             }
+            
 
             currentGalleryItems.forEach((item, index) => {
                 const itemElement = document.createElement('div');
@@ -64,6 +65,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     img.src = itemPath;
                     img.alt = `${currentGallery.title} 이미지 ${index + 1}`;
                     img.loading = 'lazy'; // 이미지 지연 로딩
+
+                    // ⬇️ 확대 기능 추가
+                    img.style.cursor = 'zoom-in';
+                    img.addEventListener('click', () => {
+                        openImageModal(itemPath);
+                    });
+
+
                     itemElement.appendChild(img);
                 } else if (item.type === 'video') {
                     const video = document.createElement('video');
@@ -129,7 +138,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // --- 자동 재생 코드 추가 ---
             lightboxVideo.muted = true; // 자동 재생 정책 준수를 위해 음소거
             const playPromise = lightboxVideo.play(); // 비디오 재생 시도
-
+ 
             if (playPromise !== undefined) {
                 playPromise.then(_ => {
                     // 자동 재생 성공 (특별히 할 일 없음)
