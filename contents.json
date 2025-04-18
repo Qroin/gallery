@@ -1,0 +1,19 @@
+[
+  {
+    "folder": "gallery1",
+    "title": "블랙홀 대모험 웹툰",
+    "description": "무시무시한 괴물을 맞이하게 되는데..",
+    "items": [
+      { "type": "image", "src": "1.jpg" },
+      { "type": "image", "src": "2.jpg" }
+    ]
+  },
+  {
+    "folder": "gallery2",
+    "title": "블랙홀대모험 영상",
+    "description": "무시무시한 괴물을 맞이하게 되는데..",
+    "items": [
+      { "type": "video", "src": "intro.mp4", "poster": "1.jpg" }
+   ]
+  }
+]

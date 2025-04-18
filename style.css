@@ -1,0 +1,294 @@
+/* --- 기본 & 폰트 --- */
+:root {
+    --primary-color: #6a11cb; /* 트렌디한 보라색 계열 */
+    --secondary-color: #2575fc; /* 시원한 파란색 계열 */
+    --background-color: #f8f9fa; /* 밝은 배경 */
+    --card-bg-color: #ffffff; /* 카드 배경 */
+    --text-color: #343a40; /* 기본 텍스트 */
+    --light-text-color: #f1f1f1; /* 밝은 텍스트 (헤더 등) */
+    --shadow-color: rgba(0, 0, 0, 0.1);
+    --border-radius: 12px; /* 둥근 모서리 */
+}
+
+body {
+    font-family: 'Noto Sans KR', sans-serif;
+    margin: 0;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+main {
+    flex-grow: 1;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto; /* 중앙 정렬 */
+    width: 100%;
+    box-sizing: border-box;
+}
+
+h1, h2, h3 {
+    font-weight: 700;
+}
+
+a {
+    text-decoration: none;
+    color: var(--primary-color);
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: var(--secondary-color);
+}
+
+img, video {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* --- 헤더 & 푸터 --- */
+.main-header, .gallery-header {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); /* 그라데이션 배경 */
+    color: var(--light-text-color);
+    padding: 40px 20px;
+    text-align: center;
+    box-shadow: 0 4px 10px var(--shadow-color);
+}
+
+.main-header h1 { margin-bottom: 5px; }
+.main-header p { margin-top: 0; font-size: 1.1em; opacity: 0.9;}
+
+.gallery-header { padding: 20px; text-align: left; position: relative;}
+.gallery-header h1 { margin: 10px 0 5px; font-size: 1.8em; }
+.gallery-header p { margin: 0 0 10px; opacity: 0.9; font-size: 1em;}
+.back-button {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    color: var(--light-text-color);
+    font-size: 1.2em;
+    background-color: rgba(255, 255, 255, 0.2);
+    padding: 5px 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+.back-button:hover { background-color: rgba(255, 255, 255, 0.4); }
+
+
+footer {
+    text-align: center;
+    padding: 15px;
+    margin-top: 30px;
+    background-color: #e9ecef; /* 약간 어두운 푸터 배경 */
+    color: #6c757d; /* 회색 텍스트 */
+    font-size: 0.9em;
+}
+
+/* --- 갤러리 그리드 (목록 & 아이템 공통) --- */
+.gallery-grid {
+    display: grid;
+    gap: 25px; /* 그리드 간격 */
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* 반응형 그리드 */
+}
+
+.loading-indicator {
+    grid-column: 1 / -1; /* 전체 너비 차지 */
+    text-align: center;
+    padding: 40px;
+    font-size: 1.2em;
+    color: #6c757d;
+}
+
+
+/* --- 갤러리 목록 카드 (index.html) --- */
+.gallery-card {
+    background-color: var(--card-bg-color);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: 0 5px 15px var(--shadow-color);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.gallery-card:hover {
+    transform: translateY(-5px); /* 위로 살짝 이동하는 효과 */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.gallery-card img {
+    width: 100%;
+    height: 200px; /* 고정 높이 */
+    object-fit: cover; /* 이미지가 비율 유지하며 꽉 차게 */
+    border-bottom: 1px solid #eee;
+}
+
+.gallery-card-content {
+    padding: 15px 20px;
+    flex-grow: 1; /* 내용 부분이 카드 높이를 채우도록 */
+}
+
+.gallery-card-content h3 {
+    margin-top: 0;
+    margin-bottom: 8px;
+    font-size: 1.3em;
+    color: var(--primary-color);
+}
+
+.gallery-card-content p {
+    font-size: 0.95em;
+    color: #6c757d;
+    margin-bottom: 0;
+}
+
+/* --- 갤러리 아이템 (gallery.html) --- */
+.item-grid {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* 썸네일 크기 */
+    gap: 15px;
+}
+
+.gallery-item {
+    position: relative;
+    cursor: pointer;
+    overflow: hidden;
+    border-radius: 8px;
+    box-shadow: 0 3px 10px var(--shadow-color);
+    transition: transform 0.3s ease;
+    aspect-ratio: 1 / 1; /* 정사각형 비율 유지 */
+}
+
+.gallery-item:hover {
+    transform: scale(1.05); /* 확대 효과 */
+}
+
+.gallery-item img,
+.gallery-item video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.gallery-item .video-icon { /* 비디오 표시 아이콘 */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 2em;
+    color: rgba(255, 255, 255, 0.8);
+    background-color: rgba(0, 0, 0, 0.4);
+    padding: 10px;
+    border-radius: 50%;
+    pointer-events: none; /* 아이콘이 클릭 방해하지 않도록 */
+}
+
+/* --- 라이트박스 --- */
+.lightbox {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.85); /* 어두운 반투명 배경 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    padding: 20px;
+    box-sizing: border-box;
+    opacity: 0; /* 초기 숨김 (애니메이션용) */
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.lightbox.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+
+.lightbox-content {
+    position: relative;
+    max-width: 90vw; /* 화면 너비의 90% */
+    max-height: 85vh; /* 화면 높이의 85% */
+    display: flex; /* 이미지/비디오 크기에 맞춰 조정 */
+    align-items: center;
+    justify-content: center;
+}
+
+.lightbox-content img,
+.lightbox-content video {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain; /* 비율 유지하며 콘텐츠 보이게 */
+    border-radius: 5px;
+    box-shadow: 0 0 30px rgba(0,0,0,0.5);
+}
+
+.lightbox-close {
+    position: absolute;
+    top: -10px; /* 콘텐츠 영역 약간 위 */
+    right: -10px;
+    font-size: 2.5em;
+    color: #fff;
+    cursor: pointer;
+    background-color: rgba(0,0,0,0.5);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+.lightbox-close:hover { transform: scale(1.1); }
+
+.lightbox-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    border: none;
+    padding: 15px 10px;
+    font-size: 1.5em;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    z-index: 1010; /* 다른 요소 위에 오도록 */
+}
+.lightbox-nav:hover { background-color: rgba(0, 0, 0, 0.8); }
+.lightbox-nav.prev { left: -50px; }
+.lightbox-nav.next { right: -50px; }
+
+#lightbox-caption {
+    position: absolute;
+    bottom: -40px; /* 콘텐츠 영역 아래 */
+    left: 50%;
+    transform: translateX(-50%);
+    color: #eee;
+    font-size: 1em;
+    text-align: center;
+    width: 80%;
+}
+
+/* --- 반응형 디자인 --- */
+@media (max-width: 768px) {
+    .main-header, .gallery-header { padding: 30px 15px; }
+    .gallery-grid { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;}
+    .item-grid { grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px;}
+    .gallery-header h1 { font-size: 1.5em; }
+    .back-button { font-size: 1em; top: 15px; left: 15px;}
+    .lightbox-nav { padding: 10px 5px; font-size: 1.2em; }
+    .lightbox-nav.prev { left: 5px; } /* 모바일에서는 안쪽으로 */
+    .lightbox-nav.next { right: 5px; }
+    #lightbox-caption { bottom: -30px; font-size: 0.9em;}
+}
+
+@media (max-width: 480px) {
+    .gallery-grid { grid-template-columns: 1fr; } /* 모바일 세로: 1열 */
+    .item-grid { grid-template-columns: repeat(2, 1fr); gap: 8px;} /* 모바일 세로: 2열 썸네일 */
+    .lightbox-close { font-size: 2em; width: 30px; height: 30px; line-height: 30px; top: 5px; right: 5px; }
+}
