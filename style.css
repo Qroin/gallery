@@ -220,6 +220,19 @@ footer {
     object-fit: contain;
 }
   
+/* 1개 아이템 전용 스타일 */
+.gallery-grid.single-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.gallery-grid.single-item .gallery-item {
+    width: 80vw;
+    max-width: 700px;
+    aspect-ratio: auto; /* 필요시 비율 해제 */
+}
+
 
 .lightbox-content {
     position: relative;
