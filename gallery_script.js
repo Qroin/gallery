@@ -70,27 +70,17 @@ document.addEventListener('DOMContentLoaded', () => {
                     const img = document.createElement('img');
                     img.src = itemPath;
                     img.alt = `${currentGallery.title} 이미지 ${index + 1}`;
-                    img.loading = 'lazy';
-                    img.classList.add('zoomable'); // CSS로 시각적 힌트 추가
+                    img.loading = 'lazy'; // 이미지 지연 로딩
+
+                    // ⬇️ 확대 기능 추가
                     img.style.cursor = 'zoom-in';
-                
-                    // 클릭 및 터치 이벤트
                     img.addEventListener('click', e => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        console.log('Image clicked'); // 디버깅용
-                        openImageModal(itemPath);
-                    });
-                    img.addEventListener('touchstart', e => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        console.log('Image touched'); // 디버깅용
-                        openImageModal(itemPath);
-                    });
-                
+                        e.stopPropagation();           // ★ 부모 이벤트 차단
+                        openImageModal(itemPath);      // ★ 모달 띄우기
+                        });
+                        
                     itemElement.appendChild(img);
-                }
-                else if (item.type === 'video') {
+                } else if (item.type === 'video') {
                     const video = document.createElement('video');
                     video.controls = true;
                     video.src = itemPath;
