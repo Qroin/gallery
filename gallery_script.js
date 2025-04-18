@@ -79,14 +79,13 @@ document.addEventListener('DOMContentLoaded', () => {
                         openImageModal(itemPath);      // ★ 모달 띄우기
                         });
                         
-
-
                     itemElement.appendChild(img);
                 } else if (item.type === 'video') {
                     const video = document.createElement('video');
                     video.controls = true;
                     video.src = itemPath;
-                    video.muted = true; // 자동재생을 위해 음소거 (선택적)
+                    // video.muted = true; // 자동재생을 위해 음소거 (선택적)
+                    video.volume = 0.05;
                     video.autoplay = true; // 미리보기 자동재생 (성능 영향 고려)
                     video.loop = true;
                     if (item.poster) { // 포스터 이미지 설정
