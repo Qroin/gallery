@@ -67,10 +67,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     itemElement.appendChild(img);
                 } else if (item.type === 'video') {
                     const video = document.createElement('video');
+                    video.controls = true;
                     video.src = itemPath;
                     video.muted = true; // 자동재생을 위해 음소거 (선택적)
                     // video.autoplay = true; // 미리보기 자동재생 (성능 영향 고려)
-                    // video.loop = true;
+                    video.loop = true;
                     if (item.poster) { // 포스터 이미지 설정
                         video.poster = `${galleryFolder}/${item.poster}`;
                     } else {
@@ -83,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const videoIcon = document.createElement('span');
                     videoIcon.className = 'video-icon';
                     videoIcon.innerHTML = '&#9658;'; // 재생 아이콘 (유니코드)
-                    itemElement.appendChild(videoIcon);
+                    // itemElement.appendChild(videoIcon);
                 }
 
                 itemElement.addEventListener('click', () => {
@@ -109,23 +110,42 @@ document.addEventListener('DOMContentLoaded', () => {
         const item = currentGalleryItems[currentIndex];
         const itemPath = `${galleryFolder}/${item.src}`;
 
+        // 이미지/비디오 표시 초기화
         lightboxImg.style.display = 'none';
         lightboxVideo.style.display = 'none';
-        lightboxVideo.pause(); // 비디오 전환 시 정지
+        lightboxVideo.pause(); // 이전 비디오 정지 (중요)
+        // lightboxVideoSource.src = ""; // 소스 변경 전에 비워두면 깜빡일 수 있으므로, load() 전에 설정
 
         if (item.type === 'image') {
             lightboxImg.src = itemPath;
             lightboxImg.style.display = 'block';
             lightboxCaption.textContent = `이미지 ${currentIndex + 1} / ${currentGalleryItems.length}`;
         } else if (item.type === 'video') {
-            lightboxVideoSource.src = itemPath;
-            lightboxVideo.load(); // 새 소스 로드
+            lightboxVideoSource.src = itemPath; // 새 비디오 소스 설정
+            lightboxVideo.load(); // 비디오 로드 (play() 전에 필요)
             lightboxVideo.style.display = 'block';
-            // lightboxVideo.play(); // 자동으로 재생하려면 주석 해제
-             lightboxCaption.textContent = `비디오 ${currentIndex + 1} / ${currentGalleryItems.length}`;
+            lightboxCaption.textContent = `비디오 ${currentIndex + 1} / ${currentGalleryItems.length}`;
+
+            // --- 자동 재생 코드 추가 ---
+            lightboxVideo.muted = true; // 자동 재생 정책 준수를 위해 음소거
+            const playPromise = lightboxVideo.play(); // 비디오 재생 시도
+
+            if (playPromise !== undefined) {
+                playPromise.then(_ => {
+                    // 자동 재생 성공 (특별히 할 일 없음)
+                    console.log("비디오 자동 재생 시작됨 (음소거 상태)");
+                }).catch(error => {
+                    // 자동 재생 실패 (예: 브라우저 정책)
+                    // controls가 있으므로 사용자가 직접 재생할 수 있음
+                    console.error("비디오 자동 재생 실패:", error);
+                    // 이 경우 사용자가 controls의 재생 버튼을 눌러야 함
+                });
+            }
+            // --- 자동 재생 코드 끝 ---
+
         }
 
-        lightbox.classList.add('show'); // CSS 애니메이션 적용
+        lightbox.classList.add('show'); // 라이트박스 보이기
 
         // 네비게이션 버튼 활성화/비활성화
         prevButton.style.display = currentIndex > 0 ? 'block' : 'none';
@@ -134,7 +154,6 @@ document.addEventListener('DOMContentLoaded', () => {
         // 키보드 네비게이션 추가
         document.addEventListener('keydown', handleKeyboardNav);
     }
-
     // 라이트박스 숨기기 함수
     function hideLightbox() {
         lightbox.classList.remove('show');
