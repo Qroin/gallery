@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     video.controls = true;
                     video.src = itemPath;
                     video.muted = true; // 자동재생을 위해 음소거 (선택적)
-                    // video.autoplay = true; // 미리보기 자동재생 (성능 영향 고려)
+                    video.autoplay = true; // 미리보기 자동재생 (성능 영향 고려)
                     video.loop = true;
                     if (item.poster) { // 포스터 이미지 설정
                         video.poster = `${galleryFolder}/${item.poster}`;
