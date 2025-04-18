@@ -52,6 +52,12 @@ document.addEventListener('DOMContentLoaded', () => {
                  return;
             }
             
+            // 아이템이 1개일 경우 전용 클래스 추가
+            if (currentGalleryItems.length === 1) {
+                galleryItemsContainer.classList.add('single-item');
+            } else {
+                galleryItemsContainer.classList.remove('single-item');
+            }
 
             currentGalleryItems.forEach((item, index) => {
                 const itemElement = document.createElement('div');
