@@ -74,9 +74,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     // ⬇️ 확대 기능 추가
                     img.style.cursor = 'zoom-in';
-                    img.addEventListener('click', () => {
-                        openImageModal(itemPath);
-                    });
+                    img.addEventListener('click', e => {
+                        e.stopPropagation();           // ★ 부모 이벤트 차단
+                        openImageModal(itemPath);      // ★ 모달 띄우기
+                        });
+                        
 
 
                     itemElement.appendChild(img);
